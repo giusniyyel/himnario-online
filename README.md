@@ -4,7 +4,7 @@ Progressive Web App (PWA) hymnbook for Iglesia de Dios en México. Browse, searc
 
 ## Prerequisites
 
-- Node.js 20+
+- Node.js 22.13+ (required by pnpm 11)
 - [pnpm](https://pnpm.io/) 11+
 
 ## Scripts
@@ -30,6 +30,8 @@ pnpm generate:hymns
 
 This writes to `src/lib/hymns/generated-hymns.json` and `public/hymns.json`. Commit both files before deploying.
 
+Source XML lives in `docs/himnario/` (local only, not in git). CI and Vercel use the committed JSON.
+
 ## PWA cache versioning
 
 The service worker uses a cache name in `public/sw.js` (e.g. `himnario-v1`). **Bump the version** when deploying changes that affect cached assets so returning users receive fresh content.
@@ -40,7 +42,7 @@ Deployed on [Vercel](https://vercel.com). Pushes to `main` trigger CI and auto-d
 
 - Build command: `pnpm build`
 - Install command: `pnpm install`
-- Node.js: 20.x
+- Node.js: 22.x
 
 Optional environment variables (see `.env.example`):
 

@@ -1,10 +1,19 @@
-import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
+import { access, mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const root = process.cwd();
 const sourceRoot = path.join(root, "docs", "himnario");
 const outputPath = path.join(root, "src", "lib", "hymns", "generated-hymns.json");
 const publicPath = path.join(root, "public", "hymns.json");
+
+async function sourceExists() {
+  try {
+    await access(sourceRoot);
+    return true;
+  } catch {
+    return false;
+  }
+}
 
 const collectionSources = [
   { collection: "normal", dir: "Himnario Rayo de Esperanza" },
@@ -140,6 +149,11 @@ async function readCollection({ collection, dir }) {
   }
 
   return hymns.sort((a, b) => a.number - b.number || a.suffix.localeCompare(b.suffix, "es") || a.title.localeCompare(b.title, "es"));
+}
+
+if (!(await sourceExists())) {
+  console.log("Skipping hymn generation: docs/himnario not found, using committed JSON.");
+  process.exit(0);
 }
 
 const generated = (await Promise.all(collectionSources.map(readCollection))).flat();
