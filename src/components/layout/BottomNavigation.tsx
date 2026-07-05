@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpenText, Heart, Search } from "lucide-react";
 const NAV_ITEM_BASE =
-  "relative flex min-h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-2xl px-3 py-2 text-sm transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2";
+  "relative flex min-h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-2xl px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 active:opacity-80";
 const NAV_ITEM_ACTIVE =
   "bg-[var(--primary-fixed)] font-bold text-[var(--on-primary-fixed)] before:absolute before:top-1 before:h-1 before:w-8 before:rounded-full before:bg-[var(--secondary-container)]";
 const NAV_ITEM_INACTIVE = "font-normal text-[var(--on-surface-variant)] hover:bg-[var(--surface-low)]";
@@ -22,7 +22,7 @@ export function BottomNavigation() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="bottom-nav-bar fixed inset-x-0 bottom-0 z-50 bg-[var(--surface-lowest)]/95 shadow-[0_-2px_12px_rgba(0,32,69,0.05)] backdrop-blur lg:hidden"
+      className="bottom-nav-bar fixed inset-x-0 bottom-0 z-50 translate-z-0 bg-[var(--surface-lowest)] shadow-[0_-2px_12px_rgba(0,32,69,0.05)] lg:hidden"
     >
       <div
         className="mx-auto grid h-18 max-w-[680px] gap-2"
@@ -36,6 +36,7 @@ export function BottomNavigation() {
             <Link
               key={item.href}
               href={item.href}
+              prefetch={true}
               aria-current={isActive ? "page" : undefined}
               className={`${NAV_ITEM_BASE} ${isActive ? NAV_ITEM_ACTIVE : NAV_ITEM_INACTIVE}`}
             >

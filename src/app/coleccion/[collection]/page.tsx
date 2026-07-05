@@ -1,9 +1,7 @@
-import { notFound } from "next/navigation";
-import { CollectionPage } from "@/features/hymnal/CollectionPage";
-import { collections, getHymnsByCollection, isHymnCollection } from "@/lib/hymns/data";
+import { Suspense } from "react";
+import { CollectionRouteClient } from "@/features/hymnal/CollectionRouteClient";
+import { collections, isHymnCollection } from "@/lib/hymns/data";
 import { createPageMetadata } from "@/lib/site-metadata";
-
-const hymnsPerPage = 24;
 
 export function generateStaticParams() {
   return Object.keys(collections).map((collection) => ({ collection }));
@@ -25,42 +23,10 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
   });
 }
 
-export default async function HymnCollectionRoute({
-  params,
-  searchParams
-}: {
-  params: Promise<{ collection: string }>;
-  searchParams: Promise<{ pagina?: string }>;
-}) {
-  const { collection } = await params;
-  const { pagina } = await searchParams;
-
-  if (!isHymnCollection(collection)) {
-    notFound();
-  }
-
-  const collectionHymns = getHymnsByCollection(collection);
-  const totalPages = Math.max(1, Math.ceil(collectionHymns.length / hymnsPerPage));
-  const currentPage = clampPage(Number(pagina) || 1, totalPages);
-  const startIndex = (currentPage - 1) * hymnsPerPage;
-  const pageHymns = collectionHymns.slice(startIndex, startIndex + hymnsPerPage);
-
+export default function HymnCollectionRoute() {
   return (
-    <CollectionPage
-      collection={collections[collection]}
-      hymns={pageHymns}
-      totalHymns={collectionHymns.length}
-      pagination={{
-        currentPage,
-        totalPages,
-        startItem: startIndex + 1,
-        endItem: Math.min(startIndex + pageHymns.length, collectionHymns.length),
-        basePath: `/coleccion/${collection}`
-      }}
-    />
+    <Suspense fallback={<div className="py-16 text-center text-[var(--on-surface-variant)]">Cargando colección…</div>}>
+      <CollectionRouteClient />
+    </Suspense>
   );
-}
-
-function clampPage(page: number, totalPages: number) {
-  return Math.min(totalPages, Math.max(1, Math.trunc(page)));
 }

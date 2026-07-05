@@ -1,7 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
+import type { MouseEvent } from "react";
 import type { Hymn, SearchLyricSnippet, SearchMode } from "@/lib/hymns/types";
 import { writeReturnNavigationIntent } from "@/services/local-storage/return-navigation";
 import { HymnNumberBadge } from "./HymnNumberBadge";
@@ -11,6 +12,9 @@ type HymnLinkSource =
   | { type: "catalog"; sourceHref: string; page: number }
   | { type: "favorites"; sourceHref: string }
   | { type: "search"; sourceHref: string; query: string; mode: SearchMode };
+
+const linkClassName =
+  "group flex items-center gap-4 rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-lowest)] p-4 shadow-sm transition hover:bg-[var(--surface-low)] active:scale-[0.99]";
 
 export function HymnLink({
   hymn,
@@ -23,24 +27,10 @@ export function HymnLink({
   lyricSnippet?: SearchLyricSnippet | null;
   source?: HymnLinkSource;
 }) {
+  const router = useRouter();
   const href = getHymnHref(hymn, source);
-
-  return (
-    <Link
-      href={href}
-      onClick={(event) => {
-        if (!source || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
-          return;
-        }
-
-        writeReturnNavigationIntent({
-          source: source.type,
-          sourceHref: source.sourceHref,
-          targetHref: href
-        });
-      }}
-      className="group flex items-center gap-4 rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-lowest)] p-4 shadow-sm transition hover:bg-[var(--surface-low)] active:scale-[0.99]"
-    >
+  const content = (
+    <>
       <HymnNumberBadge hymn={hymn} />
       <span className="min-w-0 flex-1">
         <span className="block truncate text-base font-extrabold text-[var(--on-surface)]">{hymn.displayTitle}</span>
@@ -53,7 +43,32 @@ export function HymnLink({
         )}
       </span>
       <ChevronRight aria-hidden="true" className="size-5 shrink-0 text-[var(--outline)] transition group-hover:text-[var(--accent)]" />
-    </Link>
+    </>
+  );
+
+  function handleClick(event: MouseEvent<HTMLAnchorElement>) {
+    if (!source || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) {
+      return;
+    }
+
+    writeReturnNavigationIntent({
+      source: source.type,
+      sourceHref: source.sourceHref,
+      targetHref: href
+    });
+
+    if (typeof navigator !== "undefined" && !navigator.onLine) {
+      return;
+    }
+
+    event.preventDefault();
+    router.push(href);
+  }
+
+  return (
+    <a href={href} onClick={handleClick} className={linkClassName}>
+      {content}
+    </a>
   );
 }
 

@@ -1,9 +1,6 @@
+import { Suspense } from "react";
 import { SearchPage } from "@/features/hymnal/SearchPage";
-import { hymns } from "@/lib/hymns/data";
-import type { SearchMode } from "@/lib/hymns/types";
 import { createPageMetadata } from "@/lib/site-metadata";
-
-const modes = new Set(["todo", "titulos", "numeros", "letras"]);
 
 export async function generateMetadata({
   searchParams
@@ -28,13 +25,10 @@ export async function generateMetadata({
   });
 }
 
-export default async function BuscarPage({
-  searchParams
-}: {
-  searchParams: Promise<{ q?: string; modo?: string }>;
-}) {
-  const params = await searchParams;
-  const mode = modes.has(params.modo ?? "") ? (params.modo as SearchMode) : "todo";
-
-  return <SearchPage hymns={hymns} query={params.q ?? ""} mode={mode} />;
+export default function BuscarPage() {
+  return (
+    <Suspense fallback={<div className="py-16 text-center text-[var(--on-surface-variant)]">Cargando búsqueda…</div>}>
+      <SearchPage />
+    </Suspense>
+  );
 }

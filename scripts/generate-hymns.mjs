@@ -5,6 +5,8 @@ const root = process.cwd();
 const sourceRoot = path.join(root, "docs", "himnario");
 const outputPath = path.join(root, "src", "lib", "hymns", "generated-hymns.json");
 const publicPath = path.join(root, "public", "hymns.json");
+const precachePath = path.join(root, "public", "precache-urls.json");
+const hymnsPerPage = 24;
 
 async function sourceExists() {
   try {
@@ -151,8 +153,39 @@ async function readCollection({ collection, dir }) {
   return hymns.sort((a, b) => a.number - b.number || a.suffix.localeCompare(b.suffix, "es") || a.title.localeCompare(b.title, "es"));
 }
 
+function buildPrecacheUrls(hymns) {
+  const urls = new Set(["/", "/buscar", "/favoritos", "/configuracion", "/hymns.json", "/icon.svg", "/offline.html"]);
+
+  for (const hymn of hymns) {
+    urls.add(`/himno/${hymn.collection}/${hymn.slug}`);
+  }
+
+  for (const collection of ["normal", "special"]) {
+    const count = hymns.filter((hymn) => hymn.collection === collection).length;
+    const totalPages = Math.max(1, Math.ceil(count / hymnsPerPage));
+
+    for (let page = 1; page <= totalPages; page += 1) {
+      urls.add(page <= 1 ? `/coleccion/${collection}` : `/coleccion/${collection}?pagina=${page}`);
+    }
+  }
+
+  return [...urls];
+}
+
+async function writePrecacheUrls(hymns) {
+  await writeFile(precachePath, `${JSON.stringify(buildPrecacheUrls(hymns), null, 2)}\n`);
+}
+
+async function loadExistingHymns() {
+  const raw = await readFile(outputPath, "utf8");
+  return JSON.parse(raw);
+}
+
 if (!(await sourceExists())) {
-  console.log("Skipping hymn generation: docs/himnario not found, using committed JSON.");
+  const existing = await loadExistingHymns();
+  await writePrecacheUrls(existing);
+  console.log(`Skipping hymn generation: docs/himnario not found, using committed JSON (${existing.length} hymns).`);
+  console.log(`Updated precache URLs (${buildPrecacheUrls(existing).length} routes).`);
   process.exit(0);
 }
 
@@ -162,5 +195,7 @@ await mkdir(path.dirname(outputPath), { recursive: true });
 await mkdir(path.dirname(publicPath), { recursive: true });
 await writeFile(outputPath, `${JSON.stringify(generated, null, 2)}\n`);
 await writeFile(publicPath, `${JSON.stringify({ generatedAt: new Date().toISOString(), hymns: generated }, null, 2)}\n`);
+await writePrecacheUrls(generated);
 
 console.log(`Generated ${generated.length} hymns.`);
+console.log(`Updated precache URLs (${buildPrecacheUrls(generated).length} routes).`);

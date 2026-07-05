@@ -1,5 +1,9 @@
+"use client";
+
 import Link from "next/link";
-import type { Hymn, SearchMode } from "@/lib/hymns/types";
+import { useSearchParams } from "next/navigation";
+import { hymns } from "@/lib/hymns/data";
+import type { SearchMode } from "@/lib/hymns/types";
 import { searchHymns } from "@/lib/hymns/search";
 import { HymnLink } from "./HymnLink";
 import { SearchField } from "./SearchField";
@@ -11,7 +15,13 @@ const tabs: Array<{ mode: SearchMode; label: string }> = [
   { mode: "letras", label: "Letras" }
 ];
 
-export function SearchPage({ hymns, query, mode }: { hymns: Hymn[]; query: string; mode: SearchMode }) {
+const modes = new Set<SearchMode>(["todo", "titulos", "numeros", "letras"]);
+
+export function SearchPage() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q") ?? "";
+  const rawMode = searchParams.get("modo") ?? "todo";
+  const mode = modes.has(rawMode as SearchMode) ? (rawMode as SearchMode) : "todo";
   const availableTabs = getAvailableTabs(query);
   const activeMode = availableTabs.some((tab) => tab.mode === mode) ? mode : "todo";
   const results = searchHymns(hymns, query, activeMode);

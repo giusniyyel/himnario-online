@@ -34,7 +34,9 @@ Source XML lives in `docs/himnario/` (local only, not in git). CI and Vercel use
 
 ## PWA cache versioning
 
-The service worker uses a cache name in `public/sw.js` (e.g. `himnario-v1`). **Bump the version** when deploying changes that affect cached assets so returning users receive fresh content.
+The service worker uses a cache name in `public/sw.js` (e.g. `himnario-v3`). **Bump the version** when deploying changes that affect cached assets so returning users receive fresh content.
+
+**Offline use:** After installing the PWA, open the app once while online so the service worker can precache all 406 hymns and core pages (~431 routes). Then every hymn, search, and catalog page works offline.
 
 ## Deployment
 
