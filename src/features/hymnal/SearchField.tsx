@@ -18,7 +18,9 @@ export function SearchField({
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setValue(defaultValue);
+    queueMicrotask(() => {
+      setValue(defaultValue);
+    });
   }, [defaultValue]);
 
   useEffect(() => {

@@ -27,9 +27,10 @@ export function HymnReaderClient({ hymn }: { hymn: Hymn }) {
   );
 
   useEffect(() => {
-    const settings = readUserSettings();
-    setFavoriteIds(settings.favoriteIds);
     addRecent(hymn.id);
+    queueMicrotask(() => {
+      setFavoriteIds(readUserSettings().favoriteIds);
+    });
   }, [hymn.id]);
 
   function onToggleFavorite() {
