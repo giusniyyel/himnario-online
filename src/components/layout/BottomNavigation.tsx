@@ -22,7 +22,7 @@ export function BottomNavigation() {
   return (
     <nav
       aria-label="Navegación principal"
-      className="safe-bottom fixed inset-x-0 bottom-0 z-50 bg-[var(--surface-lowest)]/95 px-4 pt-2 shadow-[0_-2px_12px_rgba(0,32,69,0.05)] backdrop-blur lg:hidden"
+      className="bottom-nav-bar fixed inset-x-0 bottom-0 z-50 bg-[var(--surface-lowest)]/95 shadow-[0_-2px_12px_rgba(0,32,69,0.05)] backdrop-blur lg:hidden"
     >
       <div
         className="mx-auto grid h-18 max-w-[680px] gap-2"

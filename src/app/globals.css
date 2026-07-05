@@ -97,17 +97,20 @@ input {
   font-family: var(--font-source-serif), Georgia, serif;
 }
 
-.safe-bottom {
-  padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+.bottom-nav-bar {
+  padding-top: 0.5rem;
+  padding-right: 1rem;
+  padding-left: 1rem;
+  padding-bottom: max(1.125rem, calc(0.625rem + env(safe-area-inset-bottom, 0px)));
 }
 
 .main-with-bottom-nav {
-  padding-bottom: calc(9rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(9rem + env(safe-area-inset-bottom, 20px));
 }
 
 @media (min-width: 768px) {
   .main-with-bottom-nav {
-    padding-bottom: calc(10rem + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(10rem + env(safe-area-inset-bottom, 20px));
   }
 }
 
