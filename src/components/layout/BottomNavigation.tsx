@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpenText, Heart, Search } from "lucide-react";
+import { OfflineAwareLink } from "@/components/navigation/OfflineAwareLink";
 const NAV_ITEM_BASE =
   "relative flex min-h-16 min-w-0 flex-col items-center justify-center gap-1 rounded-2xl px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary)] focus-visible:ring-offset-2 active:opacity-80";
 const NAV_ITEM_ACTIVE =
@@ -33,7 +33,7 @@ export function BottomNavigation() {
           const isActive = activeHref === item.href;
 
           return (
-            <Link
+            <OfflineAwareLink
               key={item.href}
               href={item.href}
               prefetch={true}
@@ -42,7 +42,7 @@ export function BottomNavigation() {
             >
               <Icon aria-hidden="true" className="size-[22px] stroke-[2.25]" />
               <span>{item.label}</span>
-            </Link>
+            </OfflineAwareLink>
           );
         })}
       </div>

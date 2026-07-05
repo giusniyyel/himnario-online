@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { BookOpenText, Star } from "lucide-react";
+import { OfflineAwareLink } from "@/components/navigation/OfflineAwareLink";
 import { collections } from "@/lib/hymns/data";
 import type { Hymn } from "@/lib/hymns/types";
 import { RecentHymns } from "./RecentHymns";
@@ -13,7 +13,7 @@ export function LibraryHome({ hymns }: { hymns: Hymn[] }) {
       </form>
 
       <section className="grid gap-4 sm:grid-cols-2">
-        <Link
+        <OfflineAwareLink
           href="/coleccion/normal"
           className="relative min-h-36 overflow-hidden rounded-2xl border border-[var(--surface-variant)] bg-[var(--primary-fixed)] p-6 text-left shadow-sm transition hover:brightness-[0.98] active:scale-[0.99]"
         >
@@ -24,9 +24,9 @@ export function LibraryHome({ hymns }: { hymns: Hymn[] }) {
             {collections.normal.label}
           </span>
           <span className="mt-2 block text-base text-[var(--on-primary-fixed-variant)]">{collections.normal.description}</span>
-        </Link>
+        </OfflineAwareLink>
 
-        <Link
+        <OfflineAwareLink
           href="/coleccion/special"
           className="relative min-h-36 overflow-hidden rounded-2xl border border-[var(--secondary-fixed-dim)]/40 bg-[var(--secondary-fixed)] p-6 text-left shadow-sm transition hover:brightness-[0.98] active:scale-[0.99]"
         >
@@ -37,7 +37,7 @@ export function LibraryHome({ hymns }: { hymns: Hymn[] }) {
             {collections.special.label}
           </span>
           <span className="mt-2 block text-base text-[var(--on-secondary-fixed-variant)]">{collections.special.description}</span>
-        </Link>
+        </OfflineAwareLink>
       </section>
 
       <RecentHymns hymns={hymns} />

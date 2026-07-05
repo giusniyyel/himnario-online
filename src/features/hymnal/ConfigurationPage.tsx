@@ -1,5 +1,6 @@
 "use client";
 
+import { PwaInstallSection } from "@/components/pwa/PwaInstallSection";
 import { ReadingSettingsControls } from "./ReadingSettingsControls";
 import { useReadingPreferences } from "./use-reading-preferences";
 
@@ -17,6 +18,8 @@ export function ConfigurationPage() {
           Estos ajustes se guardan en este dispositivo y se aplican a todos los himnos.
         </p>
       </header>
+
+      <PwaInstallSection />
 
       <section className="rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-lowest)] p-4 shadow-sm md:p-5">
         <ReadingSettingsControls {...preferences} />

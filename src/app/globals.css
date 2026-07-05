@@ -97,6 +97,14 @@ input {
   font-family: var(--font-source-serif), Georgia, serif;
 }
 
+.top-app-bar {
+  padding-top: env(safe-area-inset-top, 0px);
+}
+
+.main-with-top-bar {
+  padding-top: calc(5rem + env(safe-area-inset-top, 0px));
+}
+
 .bottom-nav-bar {
   padding-top: 0.5rem;
   padding-right: 1rem;

@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { OfflineAwareLink } from "@/components/navigation/OfflineAwareLink";
 import type { Hymn, HymnCollection } from "@/lib/hymns/types";
 import { HymnLink } from "./HymnLink";
 import { SearchField } from "./SearchField";
@@ -138,9 +138,9 @@ function PaginationLink({
   }
 
   return (
-    <Link href={href} className={className}>
+    <OfflineAwareLink href={href} className={className}>
       {content}
-    </Link>
+    </OfflineAwareLink>
   );
 }
 

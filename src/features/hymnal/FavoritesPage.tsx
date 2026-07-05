@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
+import { OfflineAwareLink } from "@/components/navigation/OfflineAwareLink";
 import type { Hymn } from "@/lib/hymns/types";
 import { readUserSettings } from "@/services/local-storage/user-preferences";
 import { HymnLink } from "./HymnLink";
@@ -27,9 +27,9 @@ export function FavoritesPage({ hymns }: { hymns: Hymn[] }) {
       {favoriteHymns.length === 0 ? (
         <div className="rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-lowest)] p-5 text-sm text-[var(--on-surface-variant)]">
           Guarda himnos desde el lector para tenerlos a la mano aquí.{" "}
-          <Link href="/buscar" className="font-bold text-[var(--accent)] underline underline-offset-4">
+          <OfflineAwareLink href="/buscar" className="font-bold text-[var(--accent)] underline underline-offset-4">
             Buscar himnos
-          </Link>
+          </OfflineAwareLink>
         </div>
       ) : (
         <section className="space-y-3" aria-label="Himnos favoritos">

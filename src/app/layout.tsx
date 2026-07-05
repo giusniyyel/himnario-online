@@ -28,7 +28,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <StructuredData />
         <PwaRegister />
         <AppTopBar />
-        <main className="main-with-bottom-nav mx-auto min-h-dvh w-full max-w-[720px] px-5 pt-20 md:px-10 lg:pb-4">
+        <main className="main-with-top-bar main-with-bottom-nav mx-auto min-h-dvh w-full max-w-[720px] px-5 md:px-10 lg:pb-4">
           {children}
         </main>
         <DesktopFooter />

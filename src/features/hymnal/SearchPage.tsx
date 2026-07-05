@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
 import { useSearchParams } from "next/navigation";
+import { OfflineAwareLink } from "@/components/navigation/OfflineAwareLink";
 import { hymns } from "@/lib/hymns/data";
 import type { SearchMode } from "@/lib/hymns/types";
 import { searchHymns } from "@/lib/hymns/search";
@@ -40,7 +40,7 @@ export function SearchPage() {
           const isActive = tab.mode === activeMode;
 
           return (
-            <Link
+            <OfflineAwareLink
               key={tab.mode}
               href={href}
               aria-current={isActive ? "page" : undefined}
@@ -51,7 +51,7 @@ export function SearchPage() {
               }
             >
               {tab.label}
-            </Link>
+            </OfflineAwareLink>
           );
         })}
       </div>

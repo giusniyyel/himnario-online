@@ -1,4 +1,4 @@
-const CACHE_NAME = "himnario-v4";
+const CACHE_NAME = "himnario-v5";
 const CORE_PRECACHE_URLS = ["/", "/buscar", "/favoritos", "/configuracion", "/hymns.json", "/icon.svg", "/offline.html", "/precache-urls.json"];
 const PRECACHE_BATCH_SIZE = 24;
 
@@ -85,8 +85,40 @@ function shouldCacheRequest(request, response) {
   return pathname.startsWith("/himno/") || pathname.startsWith("/coleccion/") || pathname.startsWith("/buscar");
 }
 
-async function offlineDocumentFallback() {
+function pathnameRequest(url) {
+  return new Request(`${url.origin}${url.pathname}`, { method: "GET" });
+}
+
+async function matchCachedDocument(cache, request) {
+  const exact = await cache.match(request);
+  if (exact) {
+    return exact;
+  }
+
+  const ignoreSearch = await cache.match(request, { ignoreSearch: true });
+  if (ignoreSearch) {
+    return ignoreSearch;
+  }
+
+  const url = new URL(request.url);
+  const pathnameOnly = await cache.match(pathnameRequest(url));
+  if (pathnameOnly) {
+    return pathnameOnly;
+  }
+
+  return null;
+}
+
+async function offlineDocumentFallback(request) {
   const cache = await caches.open(CACHE_NAME);
+
+  if (request) {
+    const matched = await matchCachedDocument(cache, request);
+    if (matched) {
+      return matched;
+    }
+  }
+
   const cachedHome = await cache.match("/");
   if (cachedHome) {
     return cachedHome;
@@ -115,13 +147,13 @@ async function networkFirst(request) {
 
     return response;
   } catch {
-    const cached = await cache.match(request);
+    const cached = await matchCachedDocument(cache, request);
     if (cached) {
       return cached;
     }
 
-    if (request.mode === "navigate" || request.headers.get("accept")?.includes("text/html")) {
-      return offlineDocumentFallback();
+    if (isNavigationRequest(request)) {
+      return offlineDocumentFallback(request);
     }
 
     throw new Error("Network unavailable");

@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 import type { MouseEvent } from "react";
 import type { Hymn, SearchLyricSnippet, SearchMode } from "@/lib/hymns/types";
+import { navigateOfflineAware } from "@/lib/offline-navigation";
 import { writeReturnNavigationIntent } from "@/services/local-storage/return-navigation";
 import { HymnNumberBadge } from "./HymnNumberBadge";
 import { LyricSearchSnippet } from "./LyricSearchSnippet";
@@ -57,7 +58,7 @@ export function HymnLink({
       targetHref: href
     });
 
-    if (typeof navigator !== "undefined" && !navigator.onLine) {
+    if (navigateOfflineAware(event, href)) {
       return;
     }
 
