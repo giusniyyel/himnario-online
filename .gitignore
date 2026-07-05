@@ -1,0 +1,10 @@
+.DS_Store
+.env*
+!.env.example
+.next/
+docs/
+node_modules/
+.pnpm-store/
+coverage/
+playwright-report/
+test-results/

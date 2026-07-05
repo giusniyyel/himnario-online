@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Himnario">
+  <rect width="512" height="512" rx="112" fill="#002045"/>
+  <path d="M150 124h72c50 0 84 29 84 74 0 25-11 45-31 58 30 12 47 35 47 70 0 52-39 82-99 82h-73V124Zm68 112c27 0 43-12 43-34 0-21-16-33-43-33h-24v67h24Zm5 127c34 0 54-14 54-41s-20-41-54-41h-29v82h29Z" fill="#ffc250"/>
+  <path d="M346 124h42v284h-42V124Z" fill="#ffffff"/>
+</svg>

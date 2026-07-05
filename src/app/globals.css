@@ -1,0 +1,117 @@
+@import "tailwindcss";
+
+:root {
+  --font-hanken: "Hanken Grotesk", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-source-serif: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --background: #f9f9ff;
+  --surface: #f9f9ff;
+  --surface-lowest: #ffffff;
+  --surface-low: #f0f3ff;
+  --surface-container: #e7eeff;
+  --surface-high: #dee8ff;
+  --surface-highest: #d9e3f9;
+  --surface-variant: #d9e3f9;
+  --on-surface: #121c2c;
+  --on-surface-variant: #43474e;
+  --primary: #002045;
+  --primary-container: #1a365d;
+  --on-primary: #ffffff;
+  --accent: #002045;
+  --on-accent: #ffffff;
+  --highlight: #7d5700;
+  --primary-fixed: #d6e3ff;
+  --primary-fixed-dim: #adc7f7;
+  --on-primary-fixed: #001b3c;
+  --on-primary-fixed-variant: #2d476f;
+  --secondary: #7d5700;
+  --secondary-container: #ffc250;
+  --secondary-fixed: #ffdeaa;
+  --secondary-fixed-dim: #f8bc4b;
+  --on-secondary-fixed: #271900;
+  --on-secondary-fixed-variant: #5f4100;
+  --outline: #74777f;
+  --outline-variant: #c4c6cf;
+  --reader-scale: 1;
+  --reader-align: center;
+}
+
+[data-theme="dark"] {
+  --background: #050910;
+  --surface: #070d16;
+  --surface-lowest: #0d1522;
+  --surface-low: #111d2d;
+  --surface-container: #17263a;
+  --surface-high: #1f3048;
+  --surface-highest: #273a54;
+  --surface-variant: #20334d;
+  --on-surface: #ebf1ff;
+  --on-surface-variant: #b8c6dc;
+  --primary: #002045;
+  --primary-container: #1a365d;
+  --on-primary: #ffffff;
+  --accent: #adc7f7;
+  --on-accent: #001b3c;
+  --highlight: #ffc250;
+  --primary-fixed: #d6e3ff;
+  --primary-fixed-dim: #adc7f7;
+  --on-primary-fixed: #001b3c;
+  --on-primary-fixed-variant: #2d476f;
+  --secondary: #ffc250;
+  --secondary-container: #7d5700;
+  --secondary-fixed: #ffdeaa;
+  --secondary-fixed-dim: #f8bc4b;
+  --on-secondary-fixed: #271900;
+  --on-secondary-fixed-variant: #5f4100;
+}
+
+html {
+  color-scheme: light;
+  background: var(--background);
+}
+
+html[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100dvh;
+  background: var(--background);
+  color: var(--on-surface);
+  font-family: var(--font-hanken), system-ui, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button,
+a,
+input {
+  touch-action: manipulation;
+}
+
+.search-input::-webkit-search-cancel-button,
+.search-input::-webkit-search-decoration {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.lyric-font {
+  font-family: var(--font-source-serif), Georgia, serif;
+}
+
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+.reader-text {
+  font-size: calc(1.25rem * var(--reader-scale));
+  line-height: 1.6;
+  text-align: var(--reader-align);
+}
