@@ -4,18 +4,39 @@ import { AppTopBar } from "@/components/layout/AppTopBar";
 import { BottomNavigation } from "@/components/layout/BottomNavigation";
 import { DesktopFooter } from "@/components/layout/DesktopFooter";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
+const siteUrl = getSiteUrl();
+const title = "Himnario Rayos de Esperanza";
+const description = "Himnario PWA para la Iglesia de Dios en México.";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: {
-    default: "Himnario Rayos de Esperanza",
-    template: "%s | Himnario Rayos de Esperanza"
+    default: title,
+    template: `%s | ${title}`
   },
-  description: "Himnario PWA para la Iglesia de Dios en México.",
-  applicationName: "Himnario Rayos de Esperanza",
+  description,
+  applicationName: title,
   appleWebApp: {
     capable: true,
     title: "Himnario"
+  },
+  openGraph: {
+    type: "website",
+    locale: "es_MX",
+    url: siteUrl,
+    siteName: title,
+    title,
+    description,
+    images: [{ url: "/icon.svg", width: 512, height: 512, alt: title }]
+  },
+  twitter: {
+    card: "summary",
+    title,
+    description,
+    images: ["/icon.svg"]
   }
 };
 
