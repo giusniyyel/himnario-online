@@ -3,6 +3,7 @@ import { HymnReaderPage } from "@/features/hymnal/HymnReaderPage";
 import type { HymnReturnTarget } from "@/features/hymnal/ReaderReturnLink";
 import { collections, getHymn, hymns } from "@/lib/hymns/data";
 import type { Hymn, SearchMode } from "@/lib/hymns/types";
+import { createHymnMetadata } from "@/lib/site-metadata";
 
 const searchModes = new Set<SearchMode>(["todo", "titulos", "numeros", "letras"]);
 
@@ -21,9 +22,15 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
     return {};
   }
 
-  return {
-    title: `${hymn.number}${hymn.suffix} ${hymn.displayTitle}`
-  };
+  const collectionLabel = collections[hymn.collection]?.label ?? "Himnario";
+  const excerpt = hymn.plainText.slice(0, 140).replace(/\s+/g, " ").trim();
+
+  return createHymnMetadata({
+    hymnTitle: `${hymn.number}${hymn.suffix} ${hymn.displayTitle}`,
+    collectionLabel,
+    excerpt,
+    path: `/himno/${hymn.collection}/${hymn.slug}`
+  });
 }
 
 export default async function HymnRoute({

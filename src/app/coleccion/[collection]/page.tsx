@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { CollectionPage } from "@/features/hymnal/CollectionPage";
 import { collections, getHymnsByCollection, isHymnCollection } from "@/lib/hymns/data";
+import { createPageMetadata } from "@/lib/site-metadata";
 
 const hymnsPerPage = 24;
 
@@ -15,9 +16,13 @@ export async function generateMetadata({ params }: { params: Promise<{ collectio
     return {};
   }
 
-  return {
-    title: collections[collection].label
-  };
+  const info = collections[collection];
+
+  return createPageMetadata({
+    title: info.label,
+    description: `${info.description} Himnario Rayos de Esperanza.`,
+    path: `/coleccion/${collection}`
+  });
 }
 
 export default async function HymnCollectionRoute({
