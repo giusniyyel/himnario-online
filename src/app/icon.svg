@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Himnario Rayos de Esperanza — Iglesia de Dios en México">
+  <rect width="512" height="512" rx="112" fill="#002045"/>
+
+  <g fill="#ffc250">
+    <path d="M256 148 L236 52 L256 96 Z" opacity="0.55"/>
+    <path d="M256 148 L256 36 L256 96 Z" opacity="0.75"/>
+    <path d="M256 148 L276 52 L256 96 Z" opacity="0.55"/>
+    <path d="M256 160 L196 72 L228 112 Z" opacity="0.4"/>
+    <path d="M256 160 L316 72 L284 112 Z" opacity="0.4"/>
+    <path d="M256 168 L168 96 L212 132 Z" opacity="0.28"/>
+    <path d="M256 168 L344 96 L300 132 Z" opacity="0.28"/>
+  </g>
+
+  <g fill="#ffc250">
+    <path d="M256 388 L108 300 C108 300 132 228 256 220 C380 228 404 300 404 300 L256 388 Z"/>
+    <path d="M256 220 L256 388" stroke="#002045" stroke-width="8"/>
+  </g>
+
+  <g stroke="#002045" stroke-linecap="round" opacity="0.55">
+    <path d="M148 286 H228" stroke-width="6"/>
+    <path d="M136 312 H220" stroke-width="6"/>
+    <path d="M128 338 H212" stroke-width="6"/>
+    <path d="M284 286 H364" stroke-width="6"/>
+    <path d="M292 312 H376" stroke-width="6"/>
+    <path d="M300 338 H384" stroke-width="6"/>
+  </g>
+</svg>
