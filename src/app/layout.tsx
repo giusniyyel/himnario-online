@@ -2,7 +2,6 @@ import type { Viewport } from "next";
 import type { ReactNode } from "react";
 import { AppTopBar } from "@/components/layout/AppTopBar";
 import { BottomNavigation } from "@/components/layout/BottomNavigation";
-import { DesktopFooter } from "@/components/layout/DesktopFooter";
 import { PwaRegister } from "@/components/pwa/PwaRegister";
 import { StructuredData } from "@/components/seo/StructuredData";
 import { createRootMetadata, site } from "@/lib/site-metadata";
@@ -31,7 +30,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <main className="main-with-top-bar main-with-bottom-nav mx-auto min-h-dvh w-full max-w-[720px] px-5 md:px-10 lg:pb-4">
           {children}
         </main>
-        <DesktopFooter />
         <BottomNavigation />
       </body>
     </html>

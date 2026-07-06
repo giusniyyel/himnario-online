@@ -172,3 +172,37 @@ test("configuration can be set before opening a hymn", async ({ page }) => {
       stored: JSON.stringify({ textScale: 1.05, theme: "dark", lyricAlign: "left" })
     });
 });
+
+test("configuration shows info link rows", async ({ page }) => {
+  await page.goto("/configuracion");
+
+  await expect(page.getByRole("link", { name: "Acerca de" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Términos de uso" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Política de privacidad" })).toBeVisible();
+
+  await page.getByRole("link", { name: "Acerca de" }).click();
+  await expect(page).toHaveURL("/acerca");
+
+  await page.goto("/configuracion");
+  await page.getByRole("link", { name: "Política de privacidad" }).click();
+  await expect(page.getByRole("heading", { name: "Política de privacidad" })).toBeVisible();
+
+  await page.goto("/configuracion");
+  await page.getByRole("link", { name: "Términos de uso" }).click();
+  await expect(page.getByRole("heading", { name: "Términos de uso" })).toBeVisible();
+});
+
+test("about page shows project details", async ({ page }) => {
+  await page.goto("/acerca");
+
+  await expect(page.getByText("Cantad a Jehová cántico nuevo")).toBeVisible();
+  await expect(page.getByText("— Salmo 149:1")).toBeVisible();
+  await expect(page.getByRole("main").getByText("Iglesia de Dios en México", { exact: true })).toBeVisible();
+  await expect(page.getByText("Versión 0.1.0")).toBeVisible();
+  await expect(page.getByText("406 himnos")).toBeVisible();
+  await expect(page.getByText("Diseñado por y para la iglesia.")).toBeVisible();
+  await expect(page.getByRole("main").getByRole("link", { name: /Daniel Campos/ })).toHaveAttribute(
+    "href",
+    "https://www.giusniyyel.dev/"
+  );
+});

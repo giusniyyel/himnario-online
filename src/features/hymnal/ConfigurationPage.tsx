@@ -1,6 +1,7 @@
 "use client";
 
 import { PwaInstallSection } from "@/components/pwa/PwaInstallSection";
+import { ConfigurationInfoLinks } from "./ConfigurationInfoLinks";
 import { ReadingSettingsControls } from "./ReadingSettingsControls";
 import { useReadingPreferences } from "./use-reading-preferences";
 
@@ -24,6 +25,8 @@ export function ConfigurationPage() {
       <section className="rounded-2xl border border-[var(--outline-variant)] bg-[var(--surface-lowest)] p-4 shadow-sm md:p-5">
         <ReadingSettingsControls {...preferences} />
       </section>
+
+      <ConfigurationInfoLinks />
     </div>
   );
 }

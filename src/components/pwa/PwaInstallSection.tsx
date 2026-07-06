@@ -1,29 +1,37 @@
 "use client";
 
 import { Download, Share } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
   userChoice: Promise<{ outcome: "accepted" | "dismissed" }>;
 };
 
+function subscribeNoop() {
+  return () => {};
+}
+
+function getDetectedInstalled(): boolean {
+  return (
+    window.matchMedia("(display-mode: standalone)").matches ||
+    (window.navigator as Navigator & { standalone?: boolean }).standalone === true
+  );
+}
+
+function getShowIosHint(): boolean {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent) && !getDetectedInstalled();
+}
+
 export function PwaInstallSection() {
   const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
-  const [isInstalled, setIsInstalled] = useState(false);
-  const [showIosHint, setShowIosHint] = useState(false);
+  const [installAccepted, setInstallAccepted] = useState(false);
   const [installMessage, setInstallMessage] = useState<string | null>(null);
+  const detectedInstalled = useSyncExternalStore(subscribeNoop, getDetectedInstalled, () => false);
+  const showIosHint = useSyncExternalStore(subscribeNoop, getShowIosHint, () => false);
+  const isInstalled = detectedInstalled || installAccepted;
 
   useEffect(() => {
-    const standalone =
-      window.matchMedia("(display-mode: standalone)").matches ||
-      (window.navigator as Navigator & { standalone?: boolean }).standalone === true;
-
-    setIsInstalled(standalone);
-
-    const iosDevice = /iphone|ipad|ipod/i.test(window.navigator.userAgent);
-    setShowIosHint(iosDevice && !standalone);
-
     function onBeforeInstallPrompt(event: Event) {
       event.preventDefault();
       setDeferredPrompt(event as BeforeInstallPromptEvent);
@@ -46,7 +54,7 @@ export function PwaInstallSection() {
 
     if (choice.outcome === "accepted") {
       setInstallMessage("La app se está instalando en tu dispositivo.");
-      setIsInstalled(true);
+      setInstallAccepted(true);
     }
 
     setDeferredPrompt(null);
