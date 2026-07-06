@@ -29,10 +29,12 @@ export function SearchPage() {
 
   return (
     <div className="space-y-7">
-      <form action="/buscar" className="space-y-5">
-        <SearchField defaultValue={query} placeholder="Buscar himnos..." autoFocus />
-        <input type="hidden" name="modo" value={activeMode} />
-      </form>
+      <SearchField
+        defaultValue={query}
+        placeholder="Buscar himnos..."
+        autoFocus
+        hiddenParams={{ modo: activeMode }}
+      />
 
       <div className="scrollbar-none flex gap-2 overflow-x-auto pb-1" aria-label="Filtros de búsqueda">
         {availableTabs.map((tab) => {

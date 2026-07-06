@@ -4,9 +4,12 @@ test("opens the library and searches hymns", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("link", { name: /Himnos Normales/ })).toBeVisible();
 
-  await page.getByRole("searchbox", { name: "Buscar himnos" }).fill("mas alla");
-  await page.keyboard.press("Enter");
+  const search = page.getByRole("searchbox", { name: "Buscar himnos" });
+  await search.fill("mas alla");
+  await expect(search).toHaveValue("mas alla");
+  await search.press("Enter");
 
+  await expect(page).toHaveURL(/\/buscar\?q=mas(\+|%20)alla/);
   await expect(page.getByRole("link", { name: /Más Allá Del Sol/i })).toBeVisible();
 });
 

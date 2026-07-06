@@ -31,10 +31,7 @@ export function CollectionPage({
         <p className="text-sm text-[var(--on-surface-variant)]">{totalHymns} himnos disponibles sin conexión.</p>
       </header>
 
-      <form action="/buscar">
-        <input type="hidden" name="modo" value="todo" />
-        <SearchField />
-      </form>
+      <SearchField hiddenParams={{ modo: "todo" }} />
 
       <PaginationControls pagination={pagination} totalHymns={totalHymns} />
 

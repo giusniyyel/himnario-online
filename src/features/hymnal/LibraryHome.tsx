@@ -8,9 +8,7 @@ import { SearchField } from "./SearchField";
 export function LibraryHome({ hymns }: { hymns: Hymn[] }) {
   return (
     <div className="space-y-8">
-      <form action="/buscar">
-        <SearchField />
-      </form>
+      <SearchField />
 
       <section className="grid gap-4 sm:grid-cols-2">
         <OfflineAwareLink
