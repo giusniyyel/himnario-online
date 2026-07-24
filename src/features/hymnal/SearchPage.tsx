@@ -60,7 +60,7 @@ export function SearchPage() {
 
       <section className="space-y-4">
         <h1 className="text-xs font-extrabold uppercase tracking-[0.18em] text-[var(--on-surface-variant)]">
-          {query ? `${results.length} resultado${results.length === 1 ? "" : "s"}` : "Buscar"}
+          {query ? `${results.length} resultado${results.length === 1 ? "" : "s"}` : "Buscar himnos"}
         </h1>
 
         {!query ? (

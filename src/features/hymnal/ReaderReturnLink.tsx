@@ -1,7 +1,7 @@
 "use client";
 
 import { OfflineAwareLink } from "@/components/navigation/OfflineAwareLink";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { navigateOfflineAware } from "@/lib/offline-navigation";
 import {
@@ -19,10 +19,6 @@ export type HymnReturnTarget = {
 
 export function ReaderReturnLink({ target }: { target: HymnReturnTarget }) {
   const router = useRouter();
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const currentSearch = searchParams.toString();
-  const currentHref = `${pathname}${currentSearch ? `?${currentSearch}` : ""}`;
 
   return (
     <OfflineAwareLink
@@ -44,6 +40,8 @@ export function ReaderReturnLink({ target }: { target: HymnReturnTarget }) {
         ) {
           return;
         }
+
+        const currentHref = `${window.location.pathname}${window.location.search}`;
 
         if (!canUseReturnHistory(currentHref, target.source)) {
           return;

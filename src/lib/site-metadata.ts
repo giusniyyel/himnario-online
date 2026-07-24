@@ -29,23 +29,41 @@ export function absoluteUrl(path = "/") {
   return new URL(path, getSiteUrl()).toString();
 }
 
+/** Segment for Next.js title template (`%s — brand`). */
+export function formatDocumentTitle(segment: string) {
+  return segment;
+}
+
+/** Share title with brand applied once. */
+export function formatShareTitle(segment: string, options?: { absolute?: boolean }) {
+  if (options?.absolute || segment === site.name) {
+    return site.name;
+  }
+
+  return `${segment} — ${site.name}`;
+}
+
 type PageMetadataOptions = {
   title: string;
   description?: string;
   path?: string;
   noIndex?: boolean;
+  /** When true, document + OG + Twitter use the brand name only (home). */
+  absoluteTitle?: boolean;
 };
 
 export function createPageMetadata({
   title,
   description = site.description,
   path = "/",
-  noIndex = false
+  noIndex = false,
+  absoluteTitle = false
 }: PageMetadataOptions): Metadata {
   const url = absoluteUrl(path);
+  const shareTitle = formatShareTitle(title, { absolute: absoluteTitle });
 
   return {
-    title,
+    title: absoluteTitle ? { absolute: site.name } : formatDocumentTitle(title),
     description,
     alternates: {
       canonical: url
@@ -55,13 +73,13 @@ export function createPageMetadata({
       locale: site.locale,
       url,
       siteName: site.name,
-      title: `${title} | ${site.name}`,
+      title: shareTitle,
       description,
       images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: site.name }]
     },
     twitter: {
       card: "summary_large_image",
-      title: `${title} | ${site.name}`,
+      title: shareTitle,
       description,
       images: ["/twitter-image"]
     },
@@ -83,7 +101,7 @@ export function createRootMetadata(): Metadata {
     metadataBase: new URL(url),
     title: {
       default: site.name,
-      template: `%s | ${site.name}`
+      template: `%s — ${site.name}`
     },
     description: site.description,
     applicationName: site.name,
@@ -160,19 +178,25 @@ export function createHymnMetadata({
   excerpt: string;
   path: string;
 }): Metadata {
-  const title = hymnTitle;
   const description = `${hymnTitle} — ${collectionLabel}. ${excerpt}`;
+  const shareTitle = formatShareTitle(hymnTitle);
 
   return {
-    ...createPageMetadata({ title, description, path }),
+    ...createPageMetadata({ title: hymnTitle, description, path }),
     openGraph: {
       type: "article",
       locale: site.locale,
       url: absoluteUrl(path),
       siteName: site.name,
-      title: `${title} | ${site.name}`,
+      title: shareTitle,
       description,
       images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: site.name }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: shareTitle,
+      description,
+      images: ["/twitter-image"]
     }
   };
 }

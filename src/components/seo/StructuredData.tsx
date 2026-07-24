@@ -1,6 +1,14 @@
 import { absoluteUrl, site } from "@/lib/site-metadata";
 
 export function StructuredData() {
+  const organization = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: site.organization,
+    url: absoluteUrl("/"),
+    logo: absoluteUrl("/icon.svg")
+  };
+
   const website = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -11,11 +19,16 @@ export function StructuredData() {
     url: absoluteUrl("/"),
     publisher: {
       "@type": "Organization",
-      name: site.organization
+      name: site.organization,
+      url: absoluteUrl("/"),
+      logo: absoluteUrl("/icon.svg")
     },
     potentialAction: {
       "@type": "SearchAction",
-      target: `${absoluteUrl("/buscar")}?q={search_term_string}`,
+      target: {
+        "@type": "EntryPoint",
+        urlTemplate: `${absoluteUrl("/buscar")}?q={search_term_string}`
+      },
       "query-input": "required name=search_term_string"
     }
   };
@@ -39,12 +52,14 @@ export function StructuredData() {
     image: absoluteUrl("/icon.svg"),
     publisher: {
       "@type": "Organization",
-      name: site.organization
+      name: site.organization,
+      url: absoluteUrl("/")
     }
   };
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webApplication) }} />
     </>

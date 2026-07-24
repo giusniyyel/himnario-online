@@ -8,9 +8,18 @@ import { SearchField } from "./SearchField";
 export function LibraryHome({ hymns }: { hymns: Hymn[] }) {
   return (
     <div className="space-y-8">
+      <header className="space-y-2 pt-1">
+        <h1 className="text-3xl font-extrabold leading-tight tracking-normal text-[var(--accent)] md:text-4xl">
+          Himnario Rayos de Esperanza
+        </h1>
+        <p className="text-sm text-[var(--on-surface-variant)]">
+          Explora, busca y lee los himnos normales y especiales.
+        </p>
+      </header>
+
       <SearchField />
 
-      <section className="grid gap-4 sm:grid-cols-2">
+      <section className="grid gap-4 sm:grid-cols-2" aria-label="Colecciones">
         <OfflineAwareLink
           href="/coleccion/normal"
           className="relative min-h-36 overflow-hidden rounded-2xl border border-[var(--surface-variant)] bg-[var(--primary-fixed)] p-6 text-left shadow-sm transition hover:brightness-[0.98] active:scale-[0.99]"

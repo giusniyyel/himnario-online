@@ -1,36 +1,10 @@
-"use client";
-
-import { notFound, useParams, useSearchParams } from "next/navigation";
-import { HymnReaderPage } from "@/features/hymnal/HymnReaderPage";
-import type { HymnReturnTarget } from "@/features/hymnal/ReaderReturnLink";
-import { collections, getHymn } from "@/lib/hymns/data";
+import { collections } from "@/lib/hymns/data";
 import type { Hymn, SearchMode } from "@/lib/hymns/types";
+import type { HymnReturnTarget } from "./ReaderReturnLink";
 
 const searchModes = new Set<SearchMode>(["todo", "titulos", "numeros", "letras"]);
 
-export function HymnReaderRouteClient() {
-  const params = useParams<{ collection: string; slug: string }>();
-  const searchParams = useSearchParams();
-  const hymn = getHymn(params.collection, params.slug);
-
-  if (!hymn) {
-    notFound();
-  }
-
-  return (
-    <HymnReaderPage
-      hymn={hymn}
-      returnTarget={getReturnTarget(hymn, {
-        from: searchParams.get("from") ?? undefined,
-        modo: searchParams.get("modo") ?? undefined,
-        pagina: searchParams.get("pagina") ?? undefined,
-        q: searchParams.get("q") ?? undefined
-      })}
-    />
-  );
-}
-
-function getReturnTarget(
+export function getHymnReturnTarget(
   hymn: Hymn,
   params: {
     from?: string;

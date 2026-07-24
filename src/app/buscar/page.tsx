@@ -14,7 +14,8 @@ export async function generateMetadata({
     return createPageMetadata({
       title: `Buscar: ${query}`,
       description: `Resultados de búsqueda para “${query}” en el Himnario Rayos de Esperanza.`,
-      path: `/buscar?q=${encodeURIComponent(query)}`
+      path: "/buscar",
+      noIndex: true
     });
   }
 

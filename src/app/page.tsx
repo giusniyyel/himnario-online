@@ -3,9 +3,10 @@ import { hymns } from "@/lib/hymns/data";
 import { createPageMetadata } from "@/lib/site-metadata";
 
 export const metadata = createPageMetadata({
-  title: "Biblioteca",
+  title: "Inicio",
   description: "Explora los himnos normales y especiales del Himnario Rayos de Esperanza.",
-  path: "/"
+  path: "/",
+  absoluteTitle: true
 });
 
 export default function HomePage() {

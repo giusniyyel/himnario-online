@@ -11,8 +11,6 @@ import {
 } from "@/services/local-storage/user-preferences";
 import { useReadingPreferences } from "./use-reading-preferences";
 
-const SECTION_LABEL_BASE = "mb-3 text-center text-xs font-extrabold uppercase tracking-[0.18em]";
-
 export function HymnReaderClient({ hymn }: { hymn: Hymn }) {
   const [favoriteIds, setFavoriteIds] = useState<string[]>([]);
   const [copyState, setCopyState] = useState<"idle" | "copied">("idle");
@@ -68,59 +66,33 @@ export function HymnReaderClient({ hymn }: { hymn: Hymn }) {
   }
 
   return (
-    <div className="mx-auto max-w-[640px] space-y-7 pb-10">
-      <section className="space-y-6">
-        {hymn.sections.map((section) => (
-          <div
-            key={`${section.label}-${section.order}`}
-            className={
-              section.kind === "chorus"
-                ? "rounded-r-2xl border-l-4 border-[var(--secondary-container)] bg-[var(--surface-container)] p-6 text-[var(--on-surface)] shadow-sm"
-                : "px-1"
-            }
-          >
-            <h2
-              className={`${SECTION_LABEL_BASE} ${
-                section.kind === "chorus" ? "text-[var(--secondary)]" : "text-[var(--on-surface-variant)]"
-              }`}
-            >
-              {section.label}
-            </h2>
-            <p className={`reader-text lyric-font whitespace-pre-line ${section.kind === "chorus" ? "font-semibold" : ""}`}>
-              {section.lines.join("\n")}
-            </p>
-          </div>
-        ))}
+    <div className="border-t border-[var(--outline-variant)] pt-6">
+      <section aria-label="Acciones del himno" className="flex items-center justify-center gap-2">
+        <ReaderActionButton icon={<Share2 aria-hidden="true" className="size-[18px]" />} label="Compartir" onClick={onShare} />
+        <ReaderActionButton
+          icon={
+            <Heart
+              aria-hidden="true"
+              className={`size-[18px] ${isFavorite ? "fill-[var(--secondary-container)] text-[var(--secondary)]" : ""}`}
+            />
+          }
+          label="Favorito"
+          onClick={onToggleFavorite}
+          pressed={isFavorite}
+        />
+        <ReaderActionButton
+          icon={
+            copyState === "copied" ? (
+              <Check aria-hidden="true" className="size-[18px] text-[var(--secondary)]" />
+            ) : (
+              <Copy aria-hidden="true" className="size-[18px]" />
+            )
+          }
+          label={copyState === "copied" ? "Copiado" : "Copiar"}
+          liveLabel={copyState === "copied" ? "Letra copiada al portapapeles" : undefined}
+          onClick={onCopy}
+        />
       </section>
-
-      <div className="border-t border-[var(--outline-variant)] pt-6">
-        <section aria-label="Acciones del himno" className="flex items-center justify-center gap-2">
-          <ReaderActionButton icon={<Share2 aria-hidden="true" className="size-[18px]" />} label="Compartir" onClick={onShare} />
-          <ReaderActionButton
-            icon={
-              <Heart
-                aria-hidden="true"
-                className={`size-[18px] ${isFavorite ? "fill-[var(--secondary-container)] text-[var(--secondary)]" : ""}`}
-              />
-            }
-            label="Favorito"
-            onClick={onToggleFavorite}
-            pressed={isFavorite}
-          />
-          <ReaderActionButton
-            icon={
-              copyState === "copied" ? (
-                <Check aria-hidden="true" className="size-[18px] text-[var(--secondary)]" />
-              ) : (
-                <Copy aria-hidden="true" className="size-[18px]" />
-              )
-            }
-            label={copyState === "copied" ? "Copiado" : "Copiar"}
-            liveLabel={copyState === "copied" ? "Letra copiada al portapapeles" : undefined}
-            onClick={onCopy}
-          />
-        </section>
-      </div>
     </div>
   );
 }

@@ -1,12 +1,17 @@
+import { Suspense } from "react";
 import type { Hymn } from "@/lib/hymns/types";
 import { HymnNumberBadge } from "./HymnNumberBadge";
 import { type HymnReturnTarget, ReaderReturnLink } from "./ReaderReturnLink";
+import { HymnLyrics } from "./HymnLyrics";
 import { HymnReaderClient } from "./HymnReaderClient";
+import { HymnReturnNav } from "./HymnReturnNav";
 
 export function HymnReaderPage({ hymn, returnTarget }: { hymn: Hymn; returnTarget: HymnReturnTarget }) {
   return (
     <article className="space-y-8">
-      <ReaderReturnLink target={returnTarget} />
+      <Suspense fallback={<ReaderReturnLink target={returnTarget} />}>
+        <HymnReturnNav hymn={hymn} />
+      </Suspense>
 
       <header className="space-y-4 text-center">
         <HymnNumberBadge hymn={hymn} size="hero" />
@@ -18,7 +23,10 @@ export function HymnReaderPage({ hymn, returnTarget }: { hymn: Hymn; returnTarge
         ) : null}
       </header>
 
-      <HymnReaderClient hymn={hymn} />
+      <div className="mx-auto max-w-[640px] space-y-7 pb-10">
+        <HymnLyrics hymn={hymn} />
+        <HymnReaderClient hymn={hymn} />
+      </div>
     </article>
   );
 }
